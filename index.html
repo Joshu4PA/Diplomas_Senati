@@ -1,0 +1,503 @@
+
+<!-- saved from url=(0172)https://diplomas-senati.plussigner.com/verify_senati/senati.php?file=https://senati-desarrollo-storage.obs.la-south-2.myhuaweicloud.com:443/CONS-100002_74921200_207534F.pdf -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="./pdf.worker.js.descarga"></script>
+    <span style="font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 17.5px; font-weight: normal;">SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://ws.plussigner.com/SSignerValidador/validar?wsdl' : failed to load external entity "https://ws.plussigner.com/SSignerValidador/validar?wsdl"</span>
+</head>
+<body>
+
+
+
+
+    
+    <title>Visor de documentos con firma digital</title>
+
+    <style>
+        @font-face {
+            font-family: "Flexo W01 Regular";
+            src: url("font/ea0517f0c20dfd81ffa9363950561257.eot");
+            /* IE9*/
+            src: url("font/ea0517f0c20dfd81ffa9363950561257.eot?#iefix") format("embedded-opentype"),
+                /* IE6-IE8 */
+                url("font/ea0517f0c20dfd81ffa9363950561257.woff2") format("woff2"),
+                /* chrome?firefox */
+                url("font/ea0517f0c20dfd81ffa9363950561257.woff") format("woff"),
+                /* chrome?firefox */
+                url("font/ea0517f0c20dfd81ffa9363950561257.ttf") format("truetype"),
+                /* chrome?firefox?opera?Safari, Android, iOS 4.2+*/
+                url("font/ea0517f0c20dfd81ffa9363950561257.svg#Flexo W01 Regular") format("svg");
+            /* iOS 4.1- */
+        }
+
+        body { 
+            font-family: 'Flexo W01 Regular';
+            background-size: cover;
+        }
+
+        body table td,
+        body table th {
+            font-family: 'Flexo W01 Regular';
+        }
+
+        table td {
+            font-size: small;
+        }
+
+        .table_main {
+            width: 600px;
+            height: 100%;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+        }
+
+        .content_info {
+            height: 450px;
+            overflow-y: scroll;
+        }
+
+        .table_info {
+            border-collapse: collapse;
+        }
+
+        .table_info td,
+        .table_info th {
+            /*border: 1px solid #ccc;*/
+            padding: 2px
+        }
+
+        .table_info th.title {
+            background-color: #0A39E4;
+            font-weight: bold;
+            text-align: left;
+            color: white;
+        }
+
+        .table_info td.label {
+            width: 150px;
+        }
+
+        .table_info td.text {
+            max-width: 280px;
+        }
+
+        figure.logo {
+            height: 70px;
+            width: 205px;
+            margin: 24px auto 10px auto;
+        }
+
+        figure.logo img {
+            width: 100%;
+        }
+
+        .btn-upload-file {
+            padding: 5px 10px;
+            background-color: #005496;
+            color: white;
+            /*border: 1px solid #ccc;*/
+            margin: 5px;
+            text-decoration: none;
+        }
+
+        #input_file {
+            display: none;
+        }
+
+        #table_controls_caption {
+            width: 800px;
+        }
+
+        #td_verify {
+            background-color: white;
+            max-width: 450px;
+        }
+
+        #btn_verify {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: -50px;
+            background: white;
+            display: none;
+            /*box-shadow: 0px 0px 5px 1px #333;*/
+            border: 2px dashed #0A39E4;
+            border-radius: 0px 22px 22px 0px;
+        }
+
+        #btn_verify img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        #btn_verify img.close {
+            width: 30px;
+            height: 30px;
+            margin-top: 10px;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 1200px) {
+            #td_verify {
+                position: absolute;
+                left: -452px;
+                top: 8px;
+            }
+
+            #td_verify.not-data {
+                left: -367px;
+            }
+
+            #btn_verify {
+                display: block;
+            }
+        }
+
+        @media (max-width: 952px) {
+            .table_main {
+                margin-left: 50px;
+            }
+        }
+    </style>
+
+    <script src="./jquery-3.2.0.min.js.descarga" type="text/javascript"></script>
+    <script src="./jquery.dd.js.descarga" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="./dd.css">
+    <script type="text/javascript" src="./pdf.js.descarga"></script>
+    <script type="text/javascript">
+        /*var usuario_session = '1';
+        var documento_session = '1';
+        var tipo = '1';
+        var clasificacion_id='22';*/
+        var url;
+
+        function mostrar(mipag, mizoom) {
+            var pagnum = eval(mipag);
+            var pagzoom = eval(mizoom);
+            // console.log(mizoom);
+            url = 'https://senati-desarrollo-storage.obs.la-south-2.myhuaweicloud.com:443/CONS-100002_74921200_207534F.pdf';
+            // console.log(url);
+            // var urlDocumentoFirmado = 'download.php?'+https://senati-desarrollo-storage.obs.la-south-2.myhuaweicloud.com:443/CONS-100002_74921200_207534F.pdf+'';
+            PDFJS.disableWorker = true;
+
+            PDFJS.getDocument('download.php?file=' + encodeURIComponent(url)).then(function getPdfHelloWorld(pdf) {
+                pdf.getPage(pagnum).then(function getPageHelloWorld(page) {
+                    var scale = pagzoom;
+                    var viewport = page.getViewport(scale);
+                    var canvas = frames["frame_documento"].contentWindow.document.getElementById('the-canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.width = canvas.width;
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    });
+                });
+            });
+        }
+    </script>
+    <script>
+        function muestra_oculta(rept) {
+            if (frames["frame_documento"].document.getElementById) { //se obtiene el id
+                var el = frames["frame_documento"].document.getElementById('pp'); //se define la variable "el" igual a nuestro div
+                el.style.display = (rept.value == 'true') ? 'block' : 'none'; //damos un atributo display:none que oculta el div
+                el.style.width = '250px';
+                el.style.height = '100px';
+                el.style.top = '-1301px';
+                el.style.left = '-332px';
+                document.getElementById('cx').value = 0;
+                document.getElementById('cy').value = 0;
+                document.getElementById('dx').value = 250;
+                document.getElementById('dy').value = 100;
+            }
+        }
+
+        function cargar_oculta() {
+            document.getElementById('cx').value = 0;
+            document.getElementById('cy').value = 0;
+            document.getElementById('dx').value = 250;
+            document.getElementById('dy').value = 100;
+        }
+
+        function AceptaNumero(evt, obj, lgd, formu) {
+            var ctrlDown = evt.ctrlKey;
+
+            var nav4 = window.Event ? true : false;
+            var key = nav4 ? evt.which : evt.keyCode;
+
+            if (obj.readOnly == true) {
+                return false;
+            }
+
+            if (ctrlDown) {
+                //if (key==C || key==V || key==X || key==c || key==v || key==x) return false;
+                if (key == 67 || key == 86 || key == 88 || key == 99 || key == 118 || key == 120) return true;
+            }
+
+            if (key == 13) {
+                newpag = eval(obj.value);
+                zoompag = eval(MostrarZoom());
+                mostrar(newpag, zoompag);
+                return false;
+            }
+            if (obj.value.length >= lgd) {
+                if (key != 8 && key != 0)
+                    return false;
+            }
+            if (key == 46) {
+                return false;
+            }
+            return (key <= 13 || (key >= 48 && key <= 57));
+
+        }
+
+        function SubirPag(pagact) {
+            if (eval(pagact) > eval(1)) {
+                newpag = eval(document.getElementById('pagina').value) - 1;
+                document.getElementById('pagina').value = newpag;
+                zoompag = eval(MostrarZoom());
+                mostrar(newpag, zoompag);
+            }
+        }
+
+        function BajarPag(pagact, totalpag) {
+            if (eval(pagact) < eval(totalpag)) {
+                newpag = eval(document.getElementById('pagina').value) + 1;
+                document.getElementById('pagina').value = newpag;
+                zoompag = eval(MostrarZoom());
+                mostrar(newpag, zoompag);
+            }
+        }
+
+        function Zoome(zoomact, pagact) {
+            if (zoomact == '100%') {
+                document.getElementById('zoom').value = '75%';
+                newz = (75 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+            if (zoomact == '75%') {
+                document.getElementById('zoom').value = '50%';
+                newz = (50 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+            if (zoomact == '50%') {
+                document.getElementById('zoom').value = '25%';
+                newz = (25 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+        }
+
+        function Zooma(zoomact, pagact) {
+            if (zoomact == '25%') {
+                document.getElementById('zoom').value = '50%';
+                newz = (50 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+            if (zoomact == '50%') {
+                document.getElementById('zoom').value = '75%';
+                newz = (75 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+            if (zoomact == '75%') {
+                document.getElementById('zoom').value = '100%';
+                newz = (100 * 0.385 / 25);
+                zoompag = eval(newz);
+                newpag = eval(pagact);
+                mostrar(newpag, zoompag);
+            }
+        }
+
+        function MostrarZoom() {
+            zoomact = document.getElementById('zoom').value;
+            if (zoomact == '100%') {
+                newz = (100 * 0.385 / 25);
+                zoompag = eval(newz);
+            }
+            if (zoomact == '75%') {
+                newz = (75 * 0.385 / 25);
+                zoompag = eval(newz);
+            }
+            if (zoomact == '50%') {
+                newz = (50 * 0.385 / 25);
+                zoompag = eval(newz);
+            }
+            if (zoomact == '25%') {
+                newz = (25 * 0.385 / 25);
+                zoompag = eval(newz);
+            }
+            return zoompag;
+        }
+    </script>
+
+    <script>
+        function MostrarMotivo() {
+            frames["frame_documento"].document.getElementById('lblmotivo').innerHTML = 'Motivo: ' + document.getElementById('motivof').value;
+        }
+
+        function MostrarLocalidad() {
+            frames["frame_documento"].document.getElementById('lbllugar').innerHTML = 'Cargo: ' + document.getElementById('localidadf').value;
+        }
+    </script>
+    <style type="text/css">
+    </style>
+
+
+
+    <table class="table_main" border="3" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+            <td bgcolor="#999999">
+                <form id="form2" name="form2" method="post" action="https://diplomas-senati.plussigner.com/verify_senati/senati.php?file=https://senati-desarrollo-storage.obs.la-south-2.myhuaweicloud.com:443/CONS-100002_74921200_207534F.pdf">
+                    <table id="table_controls_caption" border="0" cellpadding="0" cellspacing="0" bgcolor="#999999">
+                        <tbody><tr>
+                            <td width="5" bgcolor="#CCCCCC">&nbsp;</td>
+                            <td width="150" align="left" bgcolor="#CCCCCC" style="color:#FFFFFF">Página:&nbsp;
+                                <input name="pagina" type="text" id="pagina" style="text-align:center" onblur="mostrar(this.value,1.00);" onkeypress="return AceptaNumero(event,this,5,form2)" value="1" size="3">&nbsp;de&nbsp;&nbsp;10                            </td>
+                            <td width="40" bgcolor="#CCCCCC">&nbsp;</td>
+                            <td width="150" align="center" bgcolor="#CCCCCC">
+                                <img id="btnsubir" src="./subir.png" width="30" height="30" align="absmiddle" style="cursor:pointer" title="Pag. Anterior" onclick="SubirPag(form2.pagina.value)">&nbsp;&nbsp;<img id="btnbajar" src="./bajar.png" width="30" height="30" align="absmiddle" style="cursor:pointer" title="Pag. Siguiente" onclick="BajarPag(form2.pagina.value,&#39;10&#39;)">
+                            </td>
+                            <td width="40" bgcolor="#CCCCCC">&nbsp;</td>
+                            <td width="150" align="right" bgcolor="#CCCCCC">
+                                <input name="zoom" type="text" id="zoom" style="text-align:center" value="100%" size="4" readonly="">
+                            </td>
+                            <td width="5" bgcolor="#CCCCCC">&nbsp;</td>
+                        </tr>
+                    </tbody></table>
+                </form>
+            </td>
+            <td id="td_verify" rowspan="2" valign="top" class="not-data">
+                <a id="btn_verify" href="https://diplomas-senati.plussigner.com/verify_senati/senati.php?file=https://senati-desarrollo-storage.obs.la-south-2.myhuaweicloud.com:443/CONS-100002_74921200_207534F.pdf#" class="btn"><img src="./verify_logo.png" alt=""></a>
+                <figure class="logo"><img src="./logo.png" alt=""></figure>
+                <div style="text-align: center; margin: 5px; color: #0A39E4; font-size: 20px; font-weight: bold; font-family: 'Flexo Soft Bold', sans-serif; white-space: nowrap;">
+                    VERIFICADOR DE DOCUMENTOS
+                </div>
+                <div class="content_info">
+                    <table class="table_info" id="table_documento" width="100%" border="0">
+                                                    <tbody><tr>
+                                <td colspan="2">El documento no ha sido firmado</td>
+                            </tr>
+                                            </tbody></table>
+                </div>
+                <figure class="logo" style="width: 300px; height: 100px;"><img src="./verify.png" alt=""></figure>
+                <div style="padding: 5px 0px 16px 0px;">
+                    <p style="text-align: center; font-size: 16px">Documento válido emitido por <b>SENATI</b></p>
+                    <p style="text-align: center; color: #0A39E4; font-size: 12px; font-weight: bold;">Gerencia de Tecnologías de la Información</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#999999">
+                <div align="center">
+                    <iframe src="./documento.html" id="frame_documento" width="100%" height="720" frameborder="0">
+                    </iframe>
+                </div>
+            </td>
+        </tr>
+    </tbody></table>
+    <script language="javascript">
+        $(document).ready(function(e) {
+            try {
+                /*$("body select").msDropDown();
+        $("#Firmar").click(function(){
+			$.ajax({
+				action:"POST",
+				url:"grabar.php",
+				data: "documento_id="+documento_session +"&"+ 
+					  "usuario_id="+ usuario_session +"&"+
+					  "tipo="+ tipo +"&"+
+					  "clasificacion_id="+ clasificacion_id ,
+				success : function(msg){
+					alert(msg);
+				},
+				error : function (msg){
+					alert(msg);
+				}
+			});
+		});*/
+
+                $(".btn-upload-file").on("click", function() {
+                    $("#input_file").trigger("click");
+                });
+                $("#input_file").on("change", function(e) {
+                    console.log(e.target.files);
+                    if (e.target.files.length == 0) {
+                        return;
+                    }
+                    var file = e.target.files[0];
+                    console.log(file);
+                    var formData = new FormData();
+                    formData.append('file', file);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'upload_document.php',
+                        data: formData,
+                        cache: false,
+                        dataType: 'json',
+                        processData: false, // Don't process the files
+                        contentType: false,
+                        success: function(data) {
+                            if (data.status) {
+                                var nameFile = data.data.name;
+                                location.href = "index.php?file=" + nameFile;
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+                var resizeVerify = function() {
+                    /*console.log($(".table_main"));
+                    console.log($(".table_main").offset());
+                    var left = $(".table_main").offset().left;
+                    $("#td_verify").css({"top" : "43px", "right" : left+"px"});*/
+                }
+                $("#btn_verify").on("click", function() {
+                    if ($("#td_verify").hasClass("show")) {
+                        $("#td_verify").removeClass("show");
+                        var left = "-452px";
+                        if ($("#td_verify").hasClass("not-data")) {
+                            left = "-367px";
+                        }
+                        $("#td_verify").animate({
+                            left: left
+                        }, 700, function() {
+                            $("#btn_verify>img").removeClass("close").attr("src", "img/verify_logo.png");
+                        });
+                    } else {
+                        resizeVerify();
+                        $("#td_verify").addClass("show");
+                        $("#td_verify").animate({
+                            left: "0px"
+                        }, 700, function() {
+                            $("#btn_verify>img").addClass("close").attr("src", "img/close.png");
+                        });
+                    }
+                });
+                $(window).on("resize", function() {
+                    console.log("resize");
+                    resizeVerify();
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+        });
+    </script>
+    <script>
+        mostrar(1, 1.2, url);
+    </script>
+
+
+</body></html>

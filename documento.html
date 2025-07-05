@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Visor PDF</title>
+    <link rel="stylesheet" href="./jquery-ui.css">
+    <style>
+        #resizable {
+            width: 150px;
+            height: 150px;
+            padding: 0.5em;
+        }
+        #resizable h3 {
+            text-align: center;
+            margin: 0;
+        }
+        body {
+            margin-left: 0px;
+            margin-top: 0px;
+        }
+        /* IMPORTANTE: Elimina el fondo del canvas si el PDF va a ser renderizado en él */
+        #the-canvas {
+            background-image: none !important; 
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+        }
+        /* Opcional: Para centrar la tabla en la página si no lo hace automáticamente */
+        table {
+            margin: 0 auto; /* Ya lo tienes en la tabla, pero lo reitero */
+        }
+    </style>
+    <script src="./jquery-1.12.4.js.descarga"></script>
+    <script src="./jquery-ui.js.descarga"></script>
+    
+    <script type="module">
+        // Importa la librería principal de PDF.js (el archivo .mjs)
+        import * as pdfjsLib from './pdf.mjs'; 
+
+        // Establece la ruta del worker de PDF.js (el archivo .mjs del worker)
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.mjs';
+
+        var canvas = document.getElementById('the-canvas'); // Usa el ID existente del canvas
+        var ctx = canvas.getContext('2d');
+
+        // Obtiene el ancho y alto *fijos* definidos en el HTML del canvas
+        // PDF.js usará estas dimensiones como base para escalar el PDF
+        var canvasInitialWidth = canvas.width;
+        var canvasInitialHeight = canvas.height;
+
+        /**
+         * Función para renderizar una página específica de un PDF en el canvas.
+         * Esta función escalará la página del PDF para que se ajuste 
+         * dentro del tamaño fijo de tu canvas, manteniendo las proporciones.
+         * * @param {string} pdfUrl - La URL del archivo PDF a cargar.
+         * @param {number} pageNum - El número de página a mostrar (ej. 1 para la primera).
+         */
+        function renderPdfPage(pdfUrl, pageNum) {
+            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc) {
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    // Obtiene el viewport original de la página con una escala de 1
+                    var viewport = page.getViewport({ scale: 1 }); 
+                    
+                    // Calcula la escala necesaria para ajustar la página al ancho/alto del canvas
+                    var scaleX = canvasInitialWidth / viewport.width;
+                    var scaleY = canvasInitialHeight / viewport.height;
+                    
+                    // Usa la escala más pequeña para asegurar que la página completa quepa
+                    var renderScale = Math.min(scaleX, scaleY); 
+
+                    // Crea un nuevo viewport con la escala calculada
+                    var scaledViewport = page.getViewport({ scale: renderScale });
+
+                    // Ajusta el tamaño real del canvas (en píxeles de pantalla) 
+                    // a las dimensiones del viewport escalado. Esto es importante 
+                    // para un renderizado correcto.
+                    canvas.height = scaledViewport.height;
+                    canvas.width = scaledViewport.width;
+
+                    var renderContext = {
+                        canvasContext: ctx,
+                        viewport: scaledViewport
+                    };
+
+                    // Renderiza la página en el canvas
+                    page.render(renderContext).promise.then(function() {
+                        console.log('Página ' + pageNum + ' del PDF renderizada en el canvas existente.');
+                    });
+
+                }).catch(function(error) {
+                    console.error('Error al obtener la página:', error);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = "20px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText("Error al mostrar la página.", canvas.width / 2, canvas.height / 2);
+                });
+            }).catch(function(error) {
+                console.error('Error al cargar el PDF:', error);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "20px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText("Error al cargar el PDF. Verifica la ruta.", canvas.width / 2, canvas.height / 2);
+            });
+        }
+
+        // --- CÓMO AGREGAR TU PDF ---
+        // 1. Reemplaza la URL siguiente con la ruta a tu archivo PDF.
+        //    Puede ser una URL web (ej. 'https://ejemplo.com/documento.pdf')
+        //    o una ruta local (ej. './mis-documentos/reporte.pdf').
+        var miPdfURL = './documentss.pdf'; // <<<--- CAMBIA ESTA LÍNEA
+
+        // 2. Llama a la función para renderizar la primera página de tu PDF.
+        renderPdfPage(miPdfURL, 1); 
+
+        // NOTA sobre el margen: En esta estructura, el canvas tiene un tamaño fijo dentro de una tabla.
+        // El "pequeño margen" que mencionaste antes se aplicaría al body en una vista de página completa.
+        // Si deseas un margen alrededor del PDF dentro de este diseño, podrías añadir padding al `<td>`
+        // o al `div id="contenedor"` que contiene el canvas. Por ejemplo:
+        // #contenedor { margin-left: 0px; padding: 10px; } 
+        // o directamente en el <td>: <td align="center" bgcolor="#999999" style="padding: 10px;">
+    </script>
+</head>
+<body>
+    <table width="650" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+        <tbody><tr>
+            <td align="center" bgcolor="#999999">
+                <div id="contenedor" style="margin-left:0px">
+                    <canvas id="the-canvas" style="border:0px solid black;" width="714" height="1010">
+                    </canvas>
+                </div>
+            </td>
+        </tr>
+    </tbody></table>
+
+</body>
+</html>
